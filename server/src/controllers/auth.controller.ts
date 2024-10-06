@@ -2,6 +2,7 @@ import { z } from "zod";
 import catchErrors from "../utils/catchErrors";
 import { createAccount } from "../services/auth.service";
 import { CREATED } from "../constants/http";
+import { setAuthCookies } from "../utils/cookies";
 
 const registerSchema = z.object({
     firstName: z.string().min(1).max(255),
@@ -22,8 +23,10 @@ export const registerHandler = catchErrors(async(req, res) => {
             ...req.body,
         });
     // call service
-    const { user } = await createAccount(request);
+    const { user, accessToken, refreshToken } = await createAccount(request);
+
     // return response
    
-    return res.status(CREATED).json(user);
+        // setAuthCookies is untiltiy function to set accessToken and refreshToken in response object with the required proerties that we define and return the response.
+        return setAuthCookies({res, accessToken, refreshToken}).status(CREATED).json(user);
 })

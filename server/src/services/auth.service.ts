@@ -1,4 +1,7 @@
+import { JWT_REFRESH_SECRET, JWT_SECRET } from "../constants/env";
+import SessionModel from "../models/session.model";
 import UserModel from "../models/user.model";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 export type CreateAccountParams = {
     firstName: string;
@@ -27,9 +30,36 @@ export const createAccount = async(data: CreateAccountParams) => {
     })
 
     // create session
+    const session = await SessionModel.create({
+        userId: user._id
+    })
+
     // sign access token & refresh token
+    const refreshToken = jwt.sign(
+        {sessionId: session._id},
+        JWT_REFRESH_SECRET,
+        {
+            audience: ["user"],
+            expiresIn: "30d"
+        }
+    );
+
+    const accessToken = jwt.sign(
+        {
+            userId: user._id,
+            sessionId: session._id
+        },
+        JWT_SECRET,
+        {
+            audience: ["user"],
+            expiresIn: "15m"
+        }
+    )
+
     // return user & tokens
     return {
-        user
+        user,
+        accessToken,
+        refreshToken
     }
 }
