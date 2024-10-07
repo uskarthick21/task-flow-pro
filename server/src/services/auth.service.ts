@@ -2,6 +2,8 @@ import { JWT_REFRESH_SECRET, JWT_SECRET } from "../constants/env";
 import SessionModel from "../models/session.model";
 import UserModel from "../models/user.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import appAssert from "../utils/appAssert";
+import { CONFLICT } from "../constants/http";
 
 export type CreateAccountParams = {
     firstName: string;
@@ -17,9 +19,14 @@ export const createAccount = async(data: CreateAccountParams) => {
         email: data.email,
     });
 
-    if(existingUser) {
-        throw new Error("User already exists");
-    }
+    console.log("EXISTING USER:", existingUser)
+
+    // if(existingUser) {
+    //     console.log("EXISTING USER ERROR:", "EXISTING USER ERROR")
+    //     throw new Error("User already exists");
+    // }
+
+    appAssert(!existingUser, CONFLICT, "Email already in use");
 
     // create user
     const user = await UserModel.create({
@@ -58,7 +65,7 @@ export const createAccount = async(data: CreateAccountParams) => {
 
     // return user & tokens
     return {
-        user,
+        user: user.omitPassword(),
         accessToken,
         refreshToken
     }

@@ -7,6 +7,7 @@ export interface UserDocument extends mongoose.Document {
     email: string;
     password: string;
     confirmPassword (val: string): Promise<boolean>;
+    omitPassword(): Pick<UserDocument, "_id" | "firstName" | "lastName" | "email">;
 }
 
 const userSchema = new mongoose.Schema<UserDocument> (
@@ -29,6 +30,13 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.comparePassword = async function (val: string) {
     return compareValue(val, this.password);
+}
+
+userSchema.methods.omitPassword = function () {
+    // toObject() is the bulitin method from moongoose that will conver our user document into a plain javascript object
+    const user = this.toObject();
+    delete user.password;
+    return user;
 }
 
 const UserModel = mongoose.model<UserDocument>("User", userSchema);
