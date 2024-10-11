@@ -1,13 +1,16 @@
 import express, {Request, Response} from 'express';
 import cors from 'cors';
 import "dotenv/config";
-import { APP_ORIGIN, NODE_ENV, PORT } from './constants/env';
+import { LOCAL_FRONTEND, NODE_ENV, PORT } from './constants/env';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db';
 import errorHandler from './middleware/errorHandlers';
 import { OK } from './constants/http';
 import authRoutes from './routes/auth.routes';
 import path from "path";
+
+const isProduction = process.env.NODE_ENV === 'production';
+const APP_ORIGIN = isProduction ? process.env.APP_ORIGIN : LOCAL_FRONTEND;
 
 const app = express();
 app.use(express.json())
