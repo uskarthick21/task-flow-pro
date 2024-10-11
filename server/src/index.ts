@@ -32,7 +32,7 @@ app.use("/auth", authRoutes);
 
 app.use(errorHandler);
 
-app.listen(4004, async() => {
+app.listen(4001, async() => {
     console.log(`server is running on port ${PORT} in ${NODE_ENV} enviroment`);
     await connectDB();
 })
