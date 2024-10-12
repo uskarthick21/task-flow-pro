@@ -1,7 +1,7 @@
 import express, {Request, Response} from "express"
 import cors from 'cors';
 import "dotenv/config";
-import { LOCAL_FRONTEND, NODE_ENV, PORT } from './constants/env';
+import { APP_ORIGIN, NODE_ENV, PORT } from './constants/env';
 
 import connectDB from './config/db';
 import errorHandler from './middleware/errorHandlers';
@@ -10,8 +10,8 @@ import authRoutes from './routes/auth.routes';
 import path from "path";
 import cookieParser from 'cookie-parser';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const APP_ORIGIN = isProduction ? process.env.APP_ORIGIN : LOCAL_FRONTEND;
+// const isProduction = process.env.NODE_ENV === 'production';
+// const APP_ORIGIN = isProduction ? process.env.APP_ORIGIN : LOCAL_FRONTEND;
 
 const app = express();
 app.use(express.json())
