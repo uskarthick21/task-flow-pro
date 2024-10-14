@@ -21,11 +21,6 @@ export const createAccount = async(data: CreateAccountParams) => {
 
     console.log("EXISTING USER:", existingUser)
 
-    // if(existingUser) {
-    //     console.log("EXISTING USER ERROR:", "EXISTING USER ERROR")
-    //     throw new Error("User already exists");
-    // }
-
     appAssert(!existingUser, CONFLICT, "Email already in use");
 
     // create user

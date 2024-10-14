@@ -7,7 +7,8 @@ export const REFRESH_PATH = "/auth/refresh";
 const defaults: CookieOptions = {
   sameSite: "strict",
   httpOnly: true,
-  secure: NODE_ENV === "production",
+  // When the secure option is set to true, the cookie will only be sent over HTTPS connections. This means the cookie cannot be transmitted over unencrypted HTTP, which helps protect the cookie from being intercepted by attackers during transmission.
+  secure: true,
 };
 
 export const getAccessTokenCookieOptions = (): CookieOptions => ({
