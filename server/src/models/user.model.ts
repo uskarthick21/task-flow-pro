@@ -6,7 +6,7 @@ export interface UserDocument extends mongoose.Document {
     lastName: string;
     email: string;
     password: string;
-    confirmPassword (val: string): Promise<boolean>;
+    comparePassword (val: string): Promise<boolean>;
     omitPassword(): Pick<UserDocument, "_id" | "firstName" | "lastName" | "email">;
 }
 

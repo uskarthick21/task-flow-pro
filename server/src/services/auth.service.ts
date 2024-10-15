@@ -3,14 +3,8 @@ import SessionModel from "../models/session.model";
 import UserModel from "../models/user.model";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import appAssert from "../utils/appAssert";
-import { CONFLICT } from "../constants/http";
-
-export type CreateAccountParams = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-}
+import { CONFLICT,  UNAUTHORIZED } from "../constants/http";
+import { CreateAccountParams, loginParams } from "../utils/dataTypes";
 
 export const createAccount = async(data: CreateAccountParams) => {
 
@@ -18,8 +12,6 @@ export const createAccount = async(data: CreateAccountParams) => {
     const existingUser = await UserModel.exists({
         email: data.email,
     });
-
-    console.log("EXISTING USER:", existingUser)
 
     appAssert(!existingUser, CONFLICT, "Email already in use");
 
@@ -64,4 +56,52 @@ export const createAccount = async(data: CreateAccountParams) => {
         accessToken,
         refreshToken
     }
+}
+
+export const loginAccount = async({email, password}: loginParams) => {
+
+    // Verify the Existing user if exist or not
+    const user = await UserModel.findOne({ email })
+
+    // if user not in database then throw an error
+    appAssert(user, UNAUTHORIZED, "user not found. Please register" );
+
+    // validate password from the request
+    const isValidPassword = await user.comparePassword(password);
+    appAssert(isValidPassword, UNAUTHORIZED, "Invalid Email or Password");
+
+    // create a session
+    const session = await SessionModel.create({
+        userId: user._id
+    })
+
+    // sign access token & refresh token
+    const refreshToken = jwt.sign(
+        {sessionId: session._id},
+        JWT_REFRESH_SECRET,
+        {
+            audience: ["user"],
+            expiresIn: "30d"
+        }
+    );
+
+    const accessToken = jwt.sign(
+        {
+            userId: user._id,
+            sessionId: session._id
+        },
+        JWT_SECRET,
+        {
+            audience: ["user"],
+            expiresIn: "15m"
+        }
+    )
+
+    // return user & tokens
+    return {
+        user: user.omitPassword(),
+        accessToken,
+        refreshToken
+    }
+
 }
