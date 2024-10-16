@@ -3,6 +3,8 @@ import React from 'react'
 import Layout from './layouts/Layout'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Register from './pages/Register'
+import Login from './pages/Login'
+import AuthLayout from './layouts/AuthLayout'
 
 
 const App = () => {
@@ -14,16 +16,12 @@ const App = () => {
         element={<Layout><p>Home Page</p></Layout>} 
         />
         <Route 
-        path="/search" 
-        element={<Layout><p>Search Page</p></Layout>}
-         />
-        <Route 
         path="/register" 
-        element={<Layout><Register /></Layout>} 
+        element={<AuthLayout><Register /></AuthLayout>} 
         />
-        <Route 
-        path="*" 
-        element={<Navigate to="/" />} 
+         <Route 
+        path="/login" 
+        element={<AuthLayout><Login /></AuthLayout>} 
         />
       </Routes>
 
