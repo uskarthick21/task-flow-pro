@@ -8,6 +8,8 @@ import { OK } from './constants/http';
 import authRoutes from './routes/auth.routes';
 import path from "path";
 import cookieParser from 'cookie-parser';
+import authenticate from "./middleware/authenticate";
+import userRoutes from "./routes/user.routes";
 
 const app = express();
 app.use(express.json())
@@ -20,7 +22,11 @@ app.use(
   );
   app.use(cookieParser());
 
+  // Auth Routes
   app.use("/auth", authRoutes);
+
+  // User Routes
+  app.use("/user", authenticate, userRoutes);
 
 /**
  * ----------------- Deployment ---------------- 
