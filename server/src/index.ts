@@ -20,6 +20,7 @@ app.use(
       credentials: true,
     })
   );
+  //The cookie-parser middleware parses cookies attached to client requests and makes them available as a cookies object in req (request) in your route handlers.
   app.use(cookieParser());
 
   // Auth Routes
