@@ -5,17 +5,13 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import AuthLayout from './layouts/AuthLayout'
 import MainContainer from './components/MainContainer'
-import { useQuery } from '@tanstack/react-query'
-import { cookieCheck } from './config/api'
+import useAuthUser from './hooks/useAuthUser'
 
 
 
 const App = () => {
 
-  const {data} = useQuery({
-    queryKey: [cookieCheck],
-    queryFn: cookieCheck
-  });
+  const {user} = useAuthUser();
 
   return (
   
@@ -28,12 +24,12 @@ const App = () => {
         </Route>
         <Route 
         path="/register" 
-        element={data ? 
+        element={user ? 
         <Navigate to="/" /> : <AuthLayout><Register /></AuthLayout>} />
 
         <Route 
         path="/login" 
-        element={data ? 
+        element={user ? 
         <Navigate to="/" /> : <AuthLayout><Login /></AuthLayout>} />
       </Routes>
 
