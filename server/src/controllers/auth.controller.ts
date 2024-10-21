@@ -53,3 +53,14 @@ export const logoutHandler = catchErrors(async (req, res) => {
         message: "Logout successful"
     })
 })
+
+// export const cookieCheckHandler = catchErrors(async(req, res) => {
+//     const accessToken = req.cookies.accessToken;
+//     if (!accessToken) {
+//         return res.status(401).json({ 
+//             message: "no cookies",
+//             authenticated: false });
+//       }
+//     // Verify the token
+//     res.status(OK).json({ message: "cookies setted", authenticated: true })
+// })
