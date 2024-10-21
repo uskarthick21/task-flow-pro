@@ -32,11 +32,12 @@ if(process.env.NODE_ENV === "development") {
         status: "healthy",
     })
 })
+
 } else {
   app.use(express.static(path.join(__dirname, "../../client/build")));
 
-  app.get("/", (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, "../../frontend/build/index.html"));
+  app.get("*", (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, "../../client/build/index.html"));
   });
 }
 
