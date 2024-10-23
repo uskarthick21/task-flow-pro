@@ -6,16 +6,21 @@ import Register from './pages/Register'
 import Login from './pages/Login'
 import AuthLayout from './layouts/AuthLayout'
 import MainContainer from './components/MainContainer'
+import Task from './components/Task'
 
 
 const App = () => {
   return (
   
       <Routes>
-        <Route path="/" element={<MainContainer />}>
+        <Route  path="/"  element={<MainContainer />}>
           <Route 
           index
-          element={<Layout><p>Home Page</p></Layout>} 
+          element={<Layout><p>Home</p></Layout>} 
+          />
+          <Route 
+          path="/task"
+          element={<Layout><Task /></Layout>} 
           />
         </Route>
         <Route 
