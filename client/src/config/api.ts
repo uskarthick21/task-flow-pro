@@ -6,4 +6,5 @@ import {UserType} from "../../../server/src/shared/types"
 
 export const registerForm = async (data: RegisterFormData) => API.post("/auth/register", data);
 export const loginForm = async (data: LoginFormData) => API.post("/auth/login", data);
+export const logOut = async () => API.get("/auth/logout");
 export const getUser = async (): Promise<UserType> => API.get("/user");
