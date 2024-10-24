@@ -32,7 +32,7 @@ const Register = () => {
 
   return (
     <form className="w-full max-w-screen-sm flex flex-col overflow-y-auto gap-5 border-2 rounded-md shadow-md p-5" onSubmit={onSubmit}>
-        <h2 className="text-3xl font-medium text-center">Create an Account</h2>
+        {/* <h2 className="text-3xl font-medium text-center">Create an Account</h2> */}
         <div className="flex flex-col md:flex-row gap-5">
             <div className="w-full md:w-1/2">
                 <label htmlFor="firstName" className="text-gray-700 text-sm font-bold">
@@ -140,12 +140,12 @@ const Register = () => {
         </div>
         <div className="w-full">
         <span className="flex flex-col justify-center gap-5">
-        <button type="submit" className="bg-black text-white p-2 font-bold text-md rounded-md">
+        <button type="submit" className="bg-sky-blue text-white p-2 font-bold text-md rounded-md">
             Create Account
         </button>
         <span>
             Already have an account      
-            <Link className="underline font-bold pl-2" to="/login">
+            <Link className="text-sky-blue underline font-bold pl-2" to="/login">
             Sign in
             </Link>
         </span>
