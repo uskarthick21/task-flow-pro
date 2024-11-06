@@ -1,13 +1,14 @@
 import { CookieOptions, Response } from "express";
 import { fifteenMinutesFromNow, thirtyDaysFromNow } from "./date";
+import { setAuthCookiesParams } from "./dataTypes";
 
 export const REFRESH_PATH = "/auth/refresh";
+const secure = process.env.NODE_ENV !== "development";
 
 const defaults: CookieOptions = {
   sameSite: "strict",
   httpOnly: true,
-  // When the secure option is set to true, the cookie will only be sent over HTTPS connections. This means the cookie cannot be transmitted over unencrypted HTTP, which helps protect the cookie from being intercepted by attackers during transmission.
-  secure: true,
+  secure,
 };
 
 export const getAccessTokenCookieOptions = (): CookieOptions => ({
@@ -22,12 +23,12 @@ export const getRefreshTokenCookieOptions = (): CookieOptions => ({
   path: REFRESH_PATH,
 });
 
-type Params = {
-  res: Response;
-  accessToken: string;
-  refreshToken: string;
-};
-export const setAuthCookies = ({ res, accessToken, refreshToken }: Params) =>
+// type Params = {
+//   res: Response;
+//   accessToken: string;
+//   refreshToken: string;
+// };
+export const setAuthCookies = ({ res, accessToken, refreshToken }: setAuthCookiesParams) =>
   res
     .cookie("accessToken", accessToken, getAccessTokenCookieOptions())
     .cookie("refreshToken", refreshToken, getRefreshTokenCookieOptions());

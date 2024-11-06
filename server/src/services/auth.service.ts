@@ -5,6 +5,8 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import appAssert from "../utils/appAssert";
 import { CONFLICT,  UNAUTHORIZED } from "../constants/http";
 import { CreateAccountParams, loginParams } from "../utils/dataTypes";
+import { RefreshTokenPayload, verifyToken } from "../utils/jwt";
+import { ONE_DAY_MS, thirtyDaysFromNow } from "../utils/date";
 
 export const createAccount = async(data: CreateAccountParams) => {
 
@@ -104,4 +106,49 @@ export const loginAccount = async({email, password}: loginParams) => {
         refreshToken
     }
 
+}
+
+export const refreshUserAccessToken = async (refreshToken: string) => {
+
+    const {payload} = verifyToken<RefreshTokenPayload>(refreshToken, {
+        secret: JWT_REFRESH_SECRET
+    })
+    appAssert(payload, UNAUTHORIZED, "Invalid refresh token");
+
+    const session = await SessionModel.findById(payload.sessionId);
+    const now = Date.now();
+    appAssert(session && session.exipresAt.getTime() > now, UNAUTHORIZED, "Session expired");
+
+    // Refresh the session if it expires in the next 24 hours
+    const sessionNeedsRefresh = session.exipresAt.getTime() - now <= ONE_DAY_MS;
+
+    // we have to check this condition everytime the accessToken got refreshed. But for here we are checking only before 1 day that refresh will get expire.
+    if(sessionNeedsRefresh) {
+        session.exipresAt = thirtyDaysFromNow();
+        await session.save();
+    }
+
+    const newRefreshToken = sessionNeedsRefresh ? jwt.sign(
+        {sessionId: session._id},
+        JWT_REFRESH_SECRET,
+        {
+            expiresIn: "30d"
+        }
+    ) : undefined;
+
+    const accessToken = jwt.sign(
+        {
+            userId: session.userId,
+            sessionId: session._id
+        },
+        JWT_SECRET,
+        {
+            expiresIn: "15m"
+        }
+    );
+
+    return {
+        accessToken,
+        newRefreshToken
+    }
 }

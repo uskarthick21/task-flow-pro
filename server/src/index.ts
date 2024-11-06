@@ -23,12 +23,6 @@ app.use(
 
    //The cookie-parser middleware parses cookies attached to client requests and makes them available as a cookies object in req (request) in your route handlers.
   app.use(cookieParser());
-
-    // Auth Routes
-  app.use("/auth", authRoutes);
-
-    // User Routes
-    app.use("/user", authenticate, userRoutes);
 /**
  * ----------------- Deployment ---------------- 
  */
@@ -57,6 +51,11 @@ if(process.env.NODE_ENV === "development") {
 /**
  * ----------------- Deployment ---------------- 
  */
+  // Auth Routes
+  app.use("/auth", authRoutes);
+
+  // User Routes
+  app.use("/user", authenticate, userRoutes);
 
 app.use(errorHandler);
 
