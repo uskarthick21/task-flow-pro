@@ -23,11 +23,6 @@ export const getRefreshTokenCookieOptions = (): CookieOptions => ({
   path: REFRESH_PATH,
 });
 
-// type Params = {
-//   res: Response;
-//   accessToken: string;
-//   refreshToken: string;
-// };
 export const setAuthCookies = ({ res, accessToken, refreshToken }: setAuthCookiesParams) =>
   res
     .cookie("accessToken", accessToken, getAccessTokenCookieOptions())

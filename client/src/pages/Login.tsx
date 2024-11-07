@@ -1,7 +1,7 @@
 import {useForm} from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { loginForm } from "../config/api";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 
 export type LoginFormData = {
@@ -10,8 +10,10 @@ export type LoginFormData = {
 }
 
 const Login = () => {
+    const location = useLocation();
     const navigate = useNavigate();
     const {register, watch, handleSubmit, formState: {errors}} = useForm<LoginFormData>();
+    const redirectUrl = location.state?.redirectUrl || "/";
 
     const {
         mutate: createAccount
@@ -19,7 +21,7 @@ const Login = () => {
         mutationFn: loginForm,
         onSuccess: () => {
           console.log("Login success")
-          navigate("/", {
+          navigate(redirectUrl, {
             replace: true
           });
         },
