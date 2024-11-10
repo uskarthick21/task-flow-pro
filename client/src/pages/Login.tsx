@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginForm } from "../config/api";
 import { useLocation, useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export type LoginFormData = {
     email: string,
@@ -12,18 +13,18 @@ export type LoginFormData = {
 const Login = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {register, watch, handleSubmit, formState: {errors}} = useForm<LoginFormData>();
+    const {register, handleSubmit, formState: {errors}} = useForm<LoginFormData>();
     const redirectUrl = location.state?.redirectUrl || "/";
+    const { login } = useAuth(); // Destructure login from AuthContext
 
     const {
         mutate: createAccount
       } = useMutation({
         mutationFn: loginForm,
         onSuccess: () => {
-          console.log("Login success")
-          navigate(redirectUrl, {
-            replace: true
-          });
+            console.log("Login success");
+            login(); // Call login to update isAuthenticated to true
+            navigate(redirectUrl, { replace: true }); // Redirect after login
         },
       });
 

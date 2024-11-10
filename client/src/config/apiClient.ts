@@ -16,7 +16,7 @@ const API = axios.create(options)
 API.interceptors.response.use(
     (response) => response.data,
     async (error) => {
-        console.log("Error:", JSON.stringify(error, null, 4));
+        //console.log("Error:", JSON.stringify(error, null, 4));
 
        const {config, response} = error;
         const {status, data} = response || {};
@@ -29,6 +29,7 @@ API.interceptors.response.use(
                 return TokenRefreshClient(config);
             } catch (error) {
                 queryClient.clear();
+                localStorage.removeItem('isLoggedIn');
                 navigate("/login", {
                     state: {
                         redirectUrl: window.location.pathname,
