@@ -17,3 +17,13 @@ export type setAuthCookiesParams = {
     accessToken: string;
     refreshToken: string;
   };
+
+  export interface CreateTaskParams {
+    title: string;
+    description: string;
+    status: "Pending" | "In Progress" | "Completed" | "On Hold";
+    priority: "Low" | "Medium" | "High" | "Critical";
+    createdDate: Date;
+    createdBy: string; // assuming this is a string representation of ObjectId
+    tags: string[];
+}

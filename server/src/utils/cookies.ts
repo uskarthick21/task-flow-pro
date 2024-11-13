@@ -14,21 +14,23 @@ const defaults: CookieOptions = {
 export const getAccessTokenCookieOptions = (): CookieOptions => ({
   ...defaults,
   expires: fifteenMinutesFromNow(),
+  path: "/", // Explicitly set path for accessToken
 });
 
 export const getRefreshTokenCookieOptions = (): CookieOptions => ({
   ...defaults,
   expires: thirtyDaysFromNow(),
-  // path is used here is, only send the refresh token cookie only when path is "REFRESH_PATH". Not send for other path. it safe and security.
-  path: REFRESH_PATH,
+  path: REFRESH_PATH, // Set path to limit exposure to the refresh endpoint
 });
 
+// Function to set both access and refresh token cookies
 export const setAuthCookies = ({ res, accessToken, refreshToken }: setAuthCookiesParams) =>
   res
     .cookie("accessToken", accessToken, getAccessTokenCookieOptions())
     .cookie("refreshToken", refreshToken, getRefreshTokenCookieOptions());
 
-    export const clearAuthCookies = (res: Response) =>
-      res
-        .clearCookie("accessToken")
-        .clearCookie("refreshToken", { path: REFRESH_PATH });
+// Function to clear both cookies with matching options
+export const clearAuthCookies = (res: Response) =>
+  res
+    .clearCookie("accessToken", { path: "/", maxAge: 0 }) // Ensure path matches the one used to set
+    .clearCookie("refreshToken", { path: REFRESH_PATH }); // Use sam

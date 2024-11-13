@@ -10,6 +10,8 @@ import path from "path";
 import cookieParser from 'cookie-parser';
 import authenticate from "./middleware/authenticate";
 import userRoutes from "./routes/user.routes";
+import taskRoutes from "./routes/task.routes";
+
 
 const app = express();
 app.use(express.json())
@@ -56,6 +58,9 @@ if(process.env.NODE_ENV === "development") {
 
   // User Routes
   app.use("/user", authenticate, userRoutes);
+
+  // Task Routes
+  app.use("/task", authenticate, taskRoutes);
 
 app.use(errorHandler);
 

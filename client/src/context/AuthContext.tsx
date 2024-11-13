@@ -27,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const logout = () => {
         localStorage.removeItem('isLoggedIn'); // Remove logged-in status
-        document.cookie = 'access_token=; Max-Age=0; path=/;'; // Clear access_token cookie
         setIsAuthenticated(false);
     };
 
