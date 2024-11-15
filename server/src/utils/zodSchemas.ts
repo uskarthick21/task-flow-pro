@@ -33,6 +33,6 @@ export const taskSchema = z.object({
     status: TaskStatus,
     priority: TaskPriority,
     createdDate: z.preprocess((val) => (typeof val === "string" ? new Date(val) : val), z.date()),
-    createdBy: z.string().min(1).max(255),
+    userId: z.string().min(1).max(255),
     tags: z.array(z.string()),
 });

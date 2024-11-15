@@ -24,6 +24,6 @@ export type setAuthCookiesParams = {
     status: "Pending" | "In Progress" | "Completed" | "On Hold";
     priority: "Low" | "Medium" | "High" | "Critical";
     createdDate: Date;
-    createdBy: string; // assuming this is a string representation of ObjectId
+    userId: string; // assuming this is a string representation of ObjectId
     tags: string[];
 }

@@ -22,9 +22,11 @@ export const updateTask = async (taskId: string, data: CreateTaskParams): Promis
     // Validate that taskId is a valid ObjectId
     appAssert(mongoose.isValidObjectId(taskId), NOT_FOUND, "Invalid task ID format");
 
-    // Check if the task exists
-    let findTask = await TaskModel.findById(taskId);
-    appAssert(findTask, NOT_FOUND, "Task not found");
+    const {userId} = data
+
+    // Check if the task exists and is owned by the user
+    const task = await TaskModel.findOne({ _id: taskId, userId: userId });
+    appAssert(task, NOT_FOUND, "Task not found or user does not have permission to update this task");
 
     // Check if any other task already has the same title
     if (data.title) {
@@ -33,9 +35,9 @@ export const updateTask = async (taskId: string, data: CreateTaskParams): Promis
     }
 
     // Update the task and return the updated document
-    const task = await TaskModel.findByIdAndUpdate(taskId, data, { new: true });
-    // Assert that updatedTask is not null, ensuring TypeScript that it exists
-    appAssert(task, NOT_FOUND, "Task not found after update");
+    const updatedTask = await TaskModel.findByIdAndUpdate(taskId, data, { new: true });
+    appAssert(updatedTask, NOT_FOUND, "Task not found after update");
 
-    return task;
+    return updatedTask;
 };
+

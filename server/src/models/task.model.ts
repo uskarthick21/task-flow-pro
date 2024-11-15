@@ -20,7 +20,7 @@ export interface TaskDocument extends mongoose.Document {
     status: TaskStatus;
     priority: TaskPriority;
     createdDate: Date;
-    createdBy: mongoose.Types.ObjectId;
+    userId: mongoose.Types.ObjectId;
     tags: string[];
 }
 
@@ -30,7 +30,7 @@ const taskSchema = new mongoose.Schema<TaskDocument>({
     status: { type: String, enum: Object.values(TaskStatus), required: true },
     priority: { type: String, enum: Object.values(TaskPriority), required: true },
     createdDate: { type: Date, default: Date.now, required: true },
-    createdBy: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
+    userId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     tags: [{ type: String, required: true }]
 });
 
