@@ -1,8 +1,9 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import { CONFLICT, NOT_FOUND } from "../constants/http";
 import TaskModel, { TaskDocument } from "../models/task.model";
 import appAssert from "../utils/appAssert";
 import { CreateTaskParams } from "../utils/dataTypes";
+import UserModel from "../models/user.model";
 
 
 export const createTask = async (data: CreateTaskParams): Promise<TaskDocument> => {
@@ -40,4 +41,26 @@ export const updateTask = async (taskId: string, data: CreateTaskParams): Promis
 
     return updatedTask;
 };
+
+export const getTasksByUser = async (userId: Types.ObjectId):Promise<TaskDocument[]> => {
+
+    // Check if the user exists
+    const userExists = await UserModel.exists({ _id: userId });
+    appAssert(userExists, NOT_FOUND, "User not found");
+
+    // Fetch tasks for the user
+    const tasks = await TaskModel.find({ userId: userId });
+    return tasks
+}
+
+export const deleteTasks = async(taskId: string) => {
+     // Check if the task exists
+     const existingTask = await TaskModel.findOne({ _id: taskId });
+
+     // If the task does not exist, throw a NOT_FOUND error
+     appAssert(existingTask, NOT_FOUND, "Task not found.");
+ 
+     // If the task exists, delete it
+     await TaskModel.deleteOne({ _id: taskId });
+}
 
