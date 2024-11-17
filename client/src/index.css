@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.menu-item {
+    @apply flex items-center px-4 py-3 gap-2 font-medium text-gray-500 hover:text-sky-blue hover:bg-blue-200;
+  }
