@@ -7,7 +7,9 @@ interface Props {
 const Layout = ({ children }: Props) => {
 	return (
 		<div className="flex h-screen">
-			<Sidebar />
+			<div className="hidden lg:block">
+			<Sidebar  />
+			</div>
 			<div className="flex-1 flex-col min-h-screen">
 				<Header />
 				<main className="container mx-auto py-10 flex-1">{children}</main>

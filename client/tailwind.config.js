@@ -9,7 +9,8 @@ module.exports = {
         'sky-blue': '#387ADF',
         'mint-green': '#A3FFD6',
         'cyan-bright': '#36C2CE',
-        'corn-flower-blue': '#478CCF'
+        'corn-flower-blue': '#478CCF',
+        'white-smoke': '#EDEDED'
       },
     },
     container: {
