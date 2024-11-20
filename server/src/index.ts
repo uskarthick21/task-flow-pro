@@ -28,6 +28,14 @@ app.use(
 /**
  * ----------------- Deployment ---------------- 
  */
+  // Auth Routes
+  app.use("/auth", authRoutes);
+
+  // User Routes
+  app.use("/user", authenticate, userRoutes);
+
+  // Task Routes
+  app.use("/task", authenticate, taskRoutes);
 
 if(process.env.NODE_ENV === "development") {
   app.get("/", (req, res) => {
@@ -53,14 +61,7 @@ if(process.env.NODE_ENV === "development") {
 /**
  * ----------------- Deployment ---------------- 
  */
-  // Auth Routes
-  app.use("/auth", authRoutes);
 
-  // User Routes
-  app.use("/user", authenticate, userRoutes);
-
-  // Task Routes
-  app.use("/task", authenticate, taskRoutes);
 
 app.use(errorHandler);
 
