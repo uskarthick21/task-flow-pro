@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
                         <Link title="Dashboard" className="menu-item" to="/"> <LuLayoutDashboard />Dashboard</Link>
                     </li>
                     <li>
-                        <Link title="Task" className="menu-item" to="/"><LuFileEdit />Task</Link>
+                        <Link title="Task" className="menu-item" to="/task"><LuFileEdit />Task</Link>
                     </li>
                     <li>
                         <Link title="Project" className="menu-item" to="/"><LuFolderClock />Project</Link>

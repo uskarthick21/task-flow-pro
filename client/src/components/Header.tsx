@@ -5,6 +5,11 @@ import { useAuth } from "../context/AuthContext";
 import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
 
+export interface HeaderProps {
+    signOut: () => void;
+  }
+
+
 const Header = () => {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
@@ -27,7 +32,7 @@ const Header = () => {
 
 			{/* Mobile Header: Show on small screens */}
 			<div className="block lg:hidden">
-				<MobileHeader  />
+				<MobileHeader signOut={signOut}  />
 			</div>
 		</header>
 	);
