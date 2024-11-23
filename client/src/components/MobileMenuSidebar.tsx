@@ -1,7 +1,5 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { LuHome, LuLayoutDashboard, LuFileEdit, LuFolderClock, LuX } from "react-icons/lu";
-import Sidebar from "./Sidebar";
 import SearchBar from "./SearchBar";
 
 type MobileMenuSidebarParams = {

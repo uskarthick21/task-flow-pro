@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+
+const defaultTheme = require('tailwindcss/defaultTheme');
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
@@ -11,6 +13,10 @@ module.exports = {
         'cyan-bright': '#36C2CE',
         'corn-flower-blue': '#478CCF',
         'white-smoke': '#EDEDED'
+      },
+      fontFamily: {
+        sans: ['Comfortaa', ...defaultTheme.fontFamily.sans], // Use as default sans font
+        confort: ['Comfortaa', 'sans-serif'], // Custom font class
       },
     },
     container: {

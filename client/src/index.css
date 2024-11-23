@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body {
+    @apply font-sans;
+  }
+}
+
+@font-face {
+  font-family: 'Comfortaa';
+  src: url('/src/assets/fonts/Comfortaa-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900; /* Variable weight range */
+  font-style: normal;
+}
+
+
 .menu-item {
   @apply flex items-center lg:px-4 py-3 gap-2 font-medium text-gray-500 lg:hover:text-sky-blue lg:hover:bg-blue-200;
   }
