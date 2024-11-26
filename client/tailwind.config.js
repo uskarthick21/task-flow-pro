@@ -12,7 +12,9 @@ module.exports = {
         'mint-green': '#A3FFD6',
         'cyan-bright': '#36C2CE',
         'corn-flower-blue': '#478CCF',
-        'white-smoke': '#EDEDED'
+        'white-smoke': '#EDEDED',
+        'cloud-white': '#F7F8FA',
+        'low-green': '#008000'
       },
       fontFamily: {
         sans: ['Comfortaa', ...defaultTheme.fontFamily.sans], // Use as default sans font

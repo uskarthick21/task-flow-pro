@@ -1,5 +1,7 @@
 import React from 'react'
 import { LuPlus } from 'react-icons/lu'
+import TaskStatusList from '../components/TaskStatusList'
+
 
 const Task = () => {
   return (
@@ -10,24 +12,12 @@ const Task = () => {
                 Add New
             </button>
         </div>
-        {/* <div className="pt-6">
+        <div className="pt-6">
             <div className="flex flex-wrap lg:flex-nowrap justify-between gap-4">
-              
-                <div className="bg-blue-200 flex-1 p-4 text-center">
-                    Div 1
-                </div>
-          
-                <div className="bg-red-200 flex-1 p-4 text-center">
-                    Div 2
-                </div>
-
-                <div className="bg-green-200 flex-1 p-4 text-center">
-                    Div 3
-                </div>
+                <TaskStatusList />
             </div>
-        </div> */}
+        </div>
     </>
-
   )
 }
 
