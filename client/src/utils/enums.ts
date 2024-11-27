@@ -1,13 +1,13 @@
 export enum TaskStatusEnum {
-    pending = "Pending",
-    inProgress = "In Progress",
-    completed = "Completed",
-    onHold = "On Hold"
+    Pending = "Pending",
+    InProgress = "In Progress",
+    Completed = "Completed",
+    OnHold = "On Hold"
 }
 
 export enum TaskPriorityEnum {
-    low = "Low",
-    medium = "Medium",
-    high = "High",
-    critical = "Critical"
+    Low = "Low",
+    Medium = "Medium",
+    High = "High",
+    Critical = "Critical"
 }

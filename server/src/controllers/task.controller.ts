@@ -38,9 +38,9 @@ export const getTasksByUserHandler = catchErrors(async(req, res) => {
     const tasks = await getTasksByUser(req.userId);
 
     // Response for User tasks
-    res.status(201).json({
+    res.status(201).json(
         tasks
-    })
+    )
 })
 
 export const deleteTaskHandler = catchErrors(async(req, res) => {
@@ -52,3 +52,4 @@ export const deleteTaskHandler = catchErrors(async(req, res) => {
         message: "Task deleted successfully"
     })
 })
+

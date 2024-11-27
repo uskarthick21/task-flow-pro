@@ -1,17 +1,17 @@
 import mongoose from "mongoose";
 
 enum TaskStatus {
-    pending = "Pending",
-    inProgress = "In Progress",
-    completed = "Completed",
-    onHold = "On Hold"
+    Pending = "Pending",
+    InProgress = "In Progress",
+    Completed = "Completed",
+    OnHold = "On Hold"
 }
 
 enum TaskPriority {
-    low = "Low",
-    medium = "Medium",
-    high = "High",
-    critical = "Critical"
+    Low = "Low",
+    Medium = "Medium",
+    High = "High",
+    Critical = "Critical"
 }
 
 export interface TaskDocument extends mongoose.Document {

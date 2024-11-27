@@ -3,9 +3,9 @@ import { addTaskHandler, updateTaskHandler, getTasksByUserHandler, deleteTaskHan
 
 const taskRoutes = Router();
 
+taskRoutes.get("/", getTasksByUserHandler);
 taskRoutes.post("/", addTaskHandler);
 taskRoutes.put("/:taskId", updateTaskHandler);
-taskRoutes.get("/:userId", getTasksByUserHandler);
 taskRoutes.delete("/:taskId", deleteTaskHandler);
 
 export default taskRoutes;
