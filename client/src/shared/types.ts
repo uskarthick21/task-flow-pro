@@ -1,4 +1,4 @@
-import { TaskPriorityEnum, TaskStatusEnum } from "../utils/enums";
+import { TagsEnum, TaskPriorityEnum, TaskStatusEnum } from "../utils/enums";
 
 export type UserType = {
     _id: string;
@@ -15,5 +15,7 @@ export type TaskType =  {
     priority: TaskPriorityEnum;
     createdDate: Date;
     userId: string; // assuming this is a string representation of ObjectId
-    tags: string[];
+    tags: TagsEnum[];
 }
+
+export type AddTask = Omit<TaskType, "_id">;

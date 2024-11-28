@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 enum TaskStatus {
-    Pending = "Pending",
+    Todo = "Todo",
     InProgress = "In Progress",
     Completed = "Completed",
     OnHold = "On Hold"

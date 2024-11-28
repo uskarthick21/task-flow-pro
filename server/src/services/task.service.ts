@@ -6,24 +6,28 @@ import { CreateTaskParams } from "../utils/dataTypes";
 import UserModel from "../models/user.model";
 
 
-export const createTask = async (data: CreateTaskParams): Promise<TaskDocument> => {
+export const createTask = async (userId: Types.ObjectId, data: CreateTaskParams): Promise<TaskDocument> => {
     // Check if task already exists
     const existingTask = await TaskModel.findOne({
-        title: data.title
+        title: data.title,
+        userId
     })
     appAssert(!existingTask, CONFLICT, "Task with same title already exists.");
 
+    const taskData = {
+        ...data,
+        userId
+    }
+
     // Proceed to create a task if it doesn't exist
-    const newTask = new TaskModel(data);
+    const newTask = new TaskModel(taskData);
     await newTask.save();
     return newTask;
 }
 
-export const updateTask = async (taskId: string, data: CreateTaskParams): Promise<TaskDocument> => {
+export const updateTask = async (taskId: string, userId: Types.ObjectId, data: CreateTaskParams): Promise<TaskDocument> => {
     // Validate that taskId is a valid ObjectId
     appAssert(mongoose.isValidObjectId(taskId), NOT_FOUND, "Invalid task ID format");
-
-    const {userId} = data
 
     // Check if the task exists and is owned by the user
     const task = await TaskModel.findOne({ _id: taskId, userId: userId });
@@ -42,7 +46,7 @@ export const updateTask = async (taskId: string, data: CreateTaskParams): Promis
     return updatedTask;
 };
 
-export const getTasksByUser = async (userId: Types.ObjectId):Promise<TaskDocument[]> => {
+export const getTasksByUser = async (userId: Types.ObjectId): Promise<TaskDocument[]> => {
 
     // Check if the user exists
     const userExists = await UserModel.exists({ _id: userId });
@@ -53,14 +57,14 @@ export const getTasksByUser = async (userId: Types.ObjectId):Promise<TaskDocumen
     return tasks
 }
 
-export const deleteTasks = async(taskId: string) => {
-     // Check if the task exists
-     const existingTask = await TaskModel.findOne({ _id: taskId });
+export const deleteTasks = async (taskId: string) => {
+    // Check if the task exists
+    const existingTask = await TaskModel.findOne({ _id: taskId });
 
-     // If the task does not exist, throw a NOT_FOUND error
-     appAssert(existingTask, NOT_FOUND, "Task not found.");
- 
-     // If the task exists, delete it
-     await TaskModel.deleteOne({ _id: taskId });
+    // If the task does not exist, throw a NOT_FOUND error
+    appAssert(existingTask, NOT_FOUND, "Task not found.");
+
+    // If the task exists, delete it
+    await TaskModel.deleteOne({ _id: taskId });
 }
 

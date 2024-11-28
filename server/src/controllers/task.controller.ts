@@ -4,12 +4,14 @@ import catchErrors from "../utils/catchErrors";
 import { taskSchema } from "../utils/zodSchemas";
 
 
-export const addTaskHandler = catchErrors(async(req, res) => {
+export const addTaskHandler = catchErrors(async (req, res) => {
     // Validate request
-    const request = taskSchema.parse({...req.body});
-    
+    const taskAddReq = taskSchema.parse({ ...req.body });
+
+    console.log("REQUEST:", taskAddReq)
+
     // Call a service
-    const task = await createTask(request);
+    const task = await createTask(req.userId, taskAddReq);
 
     // Respones with the created task
     res.status(201).json({
@@ -19,12 +21,12 @@ export const addTaskHandler = catchErrors(async(req, res) => {
 
 });
 
-export const updateTaskHandler = catchErrors(async(req, res) => {
+export const updateTaskHandler = catchErrors(async (req, res) => {
     // Validate request
-    const request = taskSchema.parse({...req.body});
+    const taskUpdateReq = taskSchema.parse({ ...req.body });
 
     // Call a service:
-    const task = await updateTask(req.params.taskId, request);
+    const task = await updateTask(req.params.taskId, req.userId, taskUpdateReq);
 
     // Response with the updated task
     res.status(201).json({
@@ -33,7 +35,7 @@ export const updateTaskHandler = catchErrors(async(req, res) => {
     })
 })
 
-export const getTasksByUserHandler = catchErrors(async(req, res) => {
+export const getTasksByUserHandler = catchErrors(async (req, res) => {
     // Call a service:
     const tasks = await getTasksByUser(req.userId);
 
@@ -43,7 +45,7 @@ export const getTasksByUserHandler = catchErrors(async(req, res) => {
     )
 })
 
-export const deleteTaskHandler = catchErrors(async(req, res) => {
+export const deleteTaskHandler = catchErrors(async (req, res) => {
     // Call a service
     const tasks = await deleteTasks(req.params.taskId);
 

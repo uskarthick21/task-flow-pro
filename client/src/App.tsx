@@ -8,6 +8,8 @@ import { setNavigate } from './config/navigation'
 import { useAuth } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import Task from './pages/Task'
+import TaskForm from './components/TaskForm'
+import NoPageFound from './components/NoPageFound'
 
 
 const App = () => {
@@ -35,11 +37,13 @@ const App = () => {
         >
           <Route index element={<Layout><p>Home</p></Layout>} />
           <Route path="/task" element={<Layout><Task /></Layout>} />
+          <Route path="/task/add" element={<Layout><TaskForm /></Layout>} />
         </Route>
 
         {/* Public routes */}
         <Route path="/register" element={<AuthLayout><Register /></AuthLayout>} />
         <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
+        <Route path="*" element={<NoPageFound />} />
       </Routes>
   )
 }
