@@ -2,10 +2,9 @@ import React from "react";
 import { TagsEnum, TaskPriorityEnum, TaskStatusEnum } from "../utils/enums";
 import { useForm } from "react-hook-form";
 import { AddTask } from "../shared/types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
 import { addTask } from "../config/api";
-import { queryClient } from "..";
 
 const TaskForm = () => {
   const {
@@ -15,13 +14,13 @@ const TaskForm = () => {
   } = useForm<AddTask>();
 
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const { mutate: addTaskFn } = useMutation({
     mutationFn: addTask,
     onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["tasks"],
-      });
+      queryClient.invalidateQueries({ queryKey: ["tasks"] }); // Ensure cache invalidation
+      queryClient.refetchQueries({ queryKey: ["tasks"] }); // Force immediate refetch
       navigate("/task");
     },
   });

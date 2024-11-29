@@ -1,9 +1,4 @@
-import {
-  LuCalendarClock,
-  LuFileEdit,
-  LuMoreHorizontal,
-  LuTrash2,
-} from "react-icons/lu";
+import { LuCalendarClock, LuFileEdit, LuTrash2 } from "react-icons/lu";
 import { TaskType } from "../shared/types";
 import { TaskPriorityEnum } from "../utils/enums";
 
