@@ -1,6 +1,9 @@
 import { TaskStatusEnum } from "../utils/enums";
 import { TaskType } from "../shared/types";
 import TaskCard from "./TaskCard";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteTask } from "../config/api";
+import { useNavigate } from "react-router";
 
 type TaskStatusCardProps = {
   status: TaskStatusEnum;
@@ -8,6 +11,17 @@ type TaskStatusCardProps = {
 };
 
 const TasksList = ({ status, tasks = [] }: TaskStatusCardProps) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+
+  const { mutate: deleteFn } = useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["tasks"] });
+      navigate("/task");
+    },
+  });
+
   const taskByStatus = tasks?.filter((task) => {
     return task.status === status;
   });
@@ -18,7 +32,7 @@ const TasksList = ({ status, tasks = [] }: TaskStatusCardProps) => {
         {status}
       </h3>
       {taskByStatus?.map((task) => {
-        return <TaskCard key={task._id} task={task} />;
+        return <TaskCard key={task._id} task={task} deleteFn={deleteFn} />;
       })}
     </div>
   );

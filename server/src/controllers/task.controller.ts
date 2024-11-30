@@ -1,5 +1,5 @@
 import TaskModel from "../models/task.model";
-import { createTask, updateTask, getTasksByUser, deleteTasks } from "../services/task.service";
+import { createTask, updateTask, getTasksByUser, deleteTasks, getTaskById } from "../services/task.service";
 import catchErrors from "../utils/catchErrors";
 import { taskSchema } from "../utils/zodSchemas";
 
@@ -53,5 +53,13 @@ export const deleteTaskHandler = catchErrors(async (req, res) => {
     res.status(201).json({
         message: "Task deleted successfully"
     })
+})
+
+export const getTaskByIdHandler = catchErrors(async (req, res) => {
+    // call a service
+    const task = await getTaskById(req.params.taskId);
+
+    //Response 
+    res.status(201).json(task)
 })
 

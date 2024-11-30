@@ -1,19 +1,17 @@
-import Layout from './layouts/Layout'
-import { Route, Routes, useNavigate } from 'react-router-dom'
-import Register from './pages/Register'
-import Login from './pages/Login'
-import AuthLayout from './layouts/AuthLayout'
-import MainContainer from './components/MainContainer'
-import { setNavigate } from './config/navigation'
-import { useAuth } from './context/AuthContext'
-import ProtectedRoute from './components/ProtectedRoute'
-import Task from './pages/Task'
-import TaskForm from './components/TaskForm'
-import NoPageFound from './components/NoPageFound'
-
+import Layout from "./layouts/Layout";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import AuthLayout from "./layouts/AuthLayout";
+import MainContainer from "./components/MainContainer";
+import { setNavigate } from "./config/navigation";
+import { useAuth } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Task from "./pages/Task";
+import TaskForm from "./components/TaskForm";
+import NoPageFound from "./components/NoPageFound";
 
 const App = () => {
-  
   const navigate = useNavigate();
   setNavigate(navigate);
 
@@ -25,28 +23,70 @@ const App = () => {
   }
 
   return (
-      <Routes>
-        {/* Protected routes */}
-        <Route 
-          path="/" 
+    <Routes>
+      {/* Protected routes */}
+      <Route
+        path="/"
+        element={
+          <ProtectedRoute>
+            <MainContainer />
+          </ProtectedRoute>
+        }
+      >
+        <Route
+          index
           element={
-            <ProtectedRoute>
-              <MainContainer />
-            </ProtectedRoute>
+            <Layout>
+              <p>Home</p>
+            </Layout>
           }
-        >
-          <Route index element={<Layout><p>Home</p></Layout>} />
-          <Route path="/task" element={<Layout><Task /></Layout>} />
-          <Route path="/task/add" element={<Layout><TaskForm /></Layout>} />
-        </Route>
+        />
+        <Route
+          path="/task"
+          element={
+            <Layout>
+              <Task />
+            </Layout>
+          }
+        />
+        <Route
+          path="/task/add"
+          element={
+            <Layout>
+              <TaskForm />
+            </Layout>
+          }
+        />
+        <Route
+          path="/task/update/:taskId"
+          element={
+            <Layout>
+              <TaskForm />
+            </Layout>
+          }
+        />
+      </Route>
 
-        {/* Public routes */}
-        <Route path="/register" element={<AuthLayout><Register /></AuthLayout>} />
-        <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
-        <Route path="*" element={<NoPageFound />} />
-      </Routes>
-  )
-}
+      {/* Public routes */}
+      <Route
+        path="/register"
+        element={
+          <AuthLayout>
+            <Register />
+          </AuthLayout>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <AuthLayout>
+            <Login />
+          </AuthLayout>
+        }
+      />
+      <Route path="*" element={<NoPageFound />} />
+    </Routes>
+  );
+};
 
-export default App
-
+export default App;

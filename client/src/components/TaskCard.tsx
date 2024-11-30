@@ -1,12 +1,16 @@
 import { LuCalendarClock, LuFileEdit, LuTrash2 } from "react-icons/lu";
 import { TaskType } from "../shared/types";
 import { TaskPriorityEnum } from "../utils/enums";
+import { useNavigate } from "react-router";
 
-type task = {
+type taskParam = {
   task: TaskType;
+  deleteFn: (id: string) => void;
 };
 
-const TaskCard = ({ task }: task) => {
+const TaskCard = ({ task, deleteFn }: taskParam) => {
+  const navigate = useNavigate();
+
   let priorityColor;
   switch (task.priority) {
     case TaskPriorityEnum.Low:
@@ -26,6 +30,14 @@ const TaskCard = ({ task }: task) => {
       break;
   }
 
+  const deleteHandler = (taskId: string) => {
+    deleteFn(taskId);
+  };
+
+  const editHandler = (taskId: string) => {
+    navigate(`/task/update/${taskId}`);
+  };
+
   return (
     <>
       <div className="border border-white-smoke p-4 rounded-md flex flex-col mt-4 justify-start">
@@ -34,10 +46,10 @@ const TaskCard = ({ task }: task) => {
             {task.priority}
           </button>
           <div className="flex gap-2">
-            <button title="Edit">
+            <button onClick={() => editHandler(task._id)} title="Edit">
               <LuFileEdit className="text-md" />
             </button>
-            <button title="Delete">
+            <button onClick={() => deleteHandler(task._id)} title="Delete">
               <LuTrash2 className="text-md" />
             </button>
           </div>

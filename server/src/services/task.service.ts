@@ -68,3 +68,14 @@ export const deleteTasks = async (taskId: string) => {
     await TaskModel.deleteOne({ _id: taskId });
 }
 
+export const getTaskById = async (taskId: string): Promise<TaskDocument[]> => {
+
+    // Check if the user exists
+    const taskExists = await TaskModel.exists({ _id: taskId });
+    appAssert(taskExists, NOT_FOUND, "Task not found");
+
+    // Fetch tasks for the user
+    const tasks = await TaskModel.find({ _id: taskId });
+    return tasks
+}
+

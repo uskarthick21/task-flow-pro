@@ -11,3 +11,6 @@ export const getUser = async (): Promise<UserType> => API.get("/user");
 
 export const alltasks = async (): Promise<TaskType[]> => API.get("/task");
 export const addTask = async (data: AddTask) => API.post("/task", data);
+export const updateTask = async (taskId: string) => API.put(`/task/${taskId}`);
+export const deleteTask = async (taskId: string) => API.delete(`/task/${taskId}`);
+export const getTaskById = async (taskId: string): Promise<TaskType> => API.get(`/task/${taskId}`);
