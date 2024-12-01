@@ -1,8 +1,8 @@
-import { TaskStatusEnum } from "../utils/enums";
-import { TaskType } from "../shared/types";
+import { TaskStatusEnum } from "../../utils/enums";
+import { TaskType } from "../../shared/types";
 import TaskCard from "./TaskCard";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTask } from "../config/api";
+import { deleteTask } from "../../config/api";
 import { useNavigate } from "react-router";
 
 type TaskStatusCardProps = {

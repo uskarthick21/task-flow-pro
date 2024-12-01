@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Task from "./pages/Task";
 import NoPageFound from "./components/NoPageFound";
 import TaskFormPage from "./pages/TaskFormPage";
+import TaskSinglePage from "./pages/TaskSinglePage";
 
 const App = () => {
   const navigate = useNavigate();
@@ -46,6 +47,14 @@ const App = () => {
           element={
             <Layout>
               <Task />
+            </Layout>
+          }
+        />
+        <Route
+          path="/task/:taskId"
+          element={
+            <Layout>
+              <TaskSinglePage />
             </Layout>
           }
         />

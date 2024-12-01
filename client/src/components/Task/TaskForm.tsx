@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { TagsEnum, TaskPriorityEnum, TaskStatusEnum } from "../utils/enums";
+import { TagsEnum, TaskPriorityEnum, TaskStatusEnum } from "../../utils/enums";
 import { useForm } from "react-hook-form";
-import { AddTaskType, TaskType } from "../shared/types";
+import { AddTaskType, TaskType } from "../../shared/types";
 import { useNavigate } from "react-router-dom";
 
 type taskFormParams = {

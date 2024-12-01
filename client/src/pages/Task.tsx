@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { alltasks } from "../config/api";
 import { TaskStatusEnum } from "../utils/enums";
-import TasksList from "../components/TasksList";
+import TasksList from "../components/Task/TasksList";
 
 const Task = () => {
   const { data: tasksList } = useQuery({

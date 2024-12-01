@@ -1,7 +1,8 @@
 import { LuCalendarClock, LuFileEdit, LuTrash2 } from "react-icons/lu";
-import { TaskType } from "../shared/types";
-import { TaskPriorityEnum } from "../utils/enums";
+import { TaskType } from "../../shared/types";
+import { TaskPriorityEnum } from "../../utils/enums";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 type taskParam = {
   task: TaskType;
@@ -9,10 +10,11 @@ type taskParam = {
 };
 
 const TaskCard = ({ task, deleteFn }: taskParam) => {
+  const { title, description, priority, tags, createdDate } = task || {};
   const navigate = useNavigate();
 
   let priorityColor;
-  switch (task.priority) {
+  switch (priority) {
     case TaskPriorityEnum.Low:
       priorityColor = "bg-green-100 text-green-700";
       break;
@@ -38,6 +40,14 @@ const TaskCard = ({ task, deleteFn }: taskParam) => {
     navigate(`/task/edit/${taskId}`);
   };
 
+  const formattedDate = createdDate
+    ? new Intl.DateTimeFormat(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }).format(new Date(createdDate))
+    : "Invalid Date";
+
   return (
     <>
       <div className="border border-white-smoke p-4 rounded-md flex flex-col mt-4 justify-start">
@@ -54,13 +64,15 @@ const TaskCard = ({ task, deleteFn }: taskParam) => {
             </button>
           </div>
         </div>
-        <h6 className="text-lg font-bold">{task.title}</h6>
+        <h6 className="text-lg font-bold">
+          <Link to={`/task/${task._id}`}>{title}</Link>
+        </h6>
         <p className="text-xs py-4 break-words">
-          {task.description.substring(0, 40)}
+          {description.substring(0, 40)}
         </p>
         <div className="flex flex-row lg:flex-col xl:flex-row justify-between gap-2 items-start">
           <div className="flex gap-2 flex-wrap items-center flex-1">
-            {task.tags
+            {tags
               .map((tag) => {
                 return (
                   <span key={tag}>
@@ -77,7 +89,7 @@ const TaskCard = ({ task, deleteFn }: taskParam) => {
             title="Date"
             className="bg-gray-100 text-gray-700 px-2 py-1 text-xs rounded-md gap-2 flex items-center"
           >
-            <LuCalendarClock /> Nov 20
+            <LuCalendarClock /> {formattedDate}
           </button>
         </div>
       </div>

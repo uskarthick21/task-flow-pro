@@ -1,8 +1,8 @@
-import TaskForm from "../components/TaskForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
 import { addTask, getTaskById, updateTask } from "../config/api";
 import { AddTaskType, TaskType } from "../shared/types";
+import TaskForm from "../components/Task/TaskForm";
 
 type TaskFormPageParams = {
   action: "addTask" | "editTask";

@@ -29,7 +29,7 @@ const TaskPriority = z.enum(["Low", "Medium", "High", "Critical"]);
 
 export const taskSchema = z.object({
     title: z.string().min(1).max(255),
-    description: z.string().min(1).max(255),
+    description: z.string().min(1).max(100000),
     status: TaskStatus,
     priority: TaskPriority,
     createdDate: z.preprocess((val) => (typeof val === "string" ? new Date(val) : val), z.date()),
