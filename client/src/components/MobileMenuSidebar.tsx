@@ -1,5 +1,11 @@
 import { Link } from "react-router-dom";
-import { LuHome, LuLayoutDashboard, LuFileEdit, LuFolderClock, LuX } from "react-icons/lu";
+import {
+  LuHome,
+  LuLayoutDashboard,
+  LuFileEdit,
+  LuFolderClock,
+  LuX,
+} from "react-icons/lu";
 import SearchBar from "./SearchBar";
 
 type MobileMenuSidebarParams = {
@@ -7,7 +13,10 @@ type MobileMenuSidebarParams = {
   toggleMenu: () => void;
 };
 
-const MobileMenuSidebar = ({ showMenu, toggleMenu }: MobileMenuSidebarParams) => {
+const MobileMenuSidebar = ({
+  showMenu,
+  toggleMenu,
+}: MobileMenuSidebarParams) => {
   return (
     <>
       {/* Overlay */}
@@ -23,31 +32,37 @@ const MobileMenuSidebar = ({ showMenu, toggleMenu }: MobileMenuSidebarParams) =>
           showMenu ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-300`}
       >
-      <div className="flex justify-end">
-        <button className="header-menu-mobile-icon " onClick={toggleMenu}>
-          <LuX className="text-xl" />
-        </button>
-      </div>
+        <div className="flex justify-end">
+          <button className="header-menu-mobile-icon " onClick={toggleMenu}>
+            <LuX className="text-xl" />
+          </button>
+        </div>
 
-      {/* Sidebar */} 
-      <div className="my-6">
-        <SearchBar />
-      </div>
+        {/* Sidebar */}
+        <div className="my-6">
+          <SearchBar />
+        </div>
 
         <nav>
           <ul className="mt-6">
-              <li>
-                  <Link title="Home" className="menu-item" to="/"><LuHome />Home</Link>
-              </li>
-              <li>
+            <li>
+              <Link title="Home" className="menu-item" to="/">
+                <LuHome />
+                Home
+              </Link>
+            </li>
+            {/* <li>
                   <Link title="Dashboard" className="menu-item" to="/"> <LuLayoutDashboard />Dashboard</Link>
-              </li>
-              <li>
-                  <Link title="Task" className="menu-item" to="/task"><LuFileEdit />Task</Link>
-              </li>
-              <li>
+              </li> */}
+            <li>
+              <Link title="Task" className="menu-item" to="/task">
+                <LuFileEdit />
+                Task
+              </Link>
+            </li>
+            {/* <li>
                   <Link title="Project" className="menu-item" to="/"><LuFolderClock />Project</Link>
-              </li>
+              </li> */}
           </ul>
         </nav>
       </div>

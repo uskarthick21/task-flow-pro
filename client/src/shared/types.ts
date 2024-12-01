@@ -13,7 +13,7 @@ export type TaskType = {
     description: string;
     status: TaskStatusEnum;
     priority: TaskPriorityEnum;
-    createdDate: Date;
+    createdDate: Date | string; // Allow both Date and string types
     userId: string; // assuming this is a string representation of ObjectId
     tags: TagsEnum[];
 }

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { TagsEnum, TaskPriorityEnum, TaskStatusEnum } from "../utils/enums";
 import { useForm } from "react-hook-form";
 import { AddTaskType, TaskType } from "../shared/types";
+import { useNavigate } from "react-router-dom";
 
 type taskFormParams = {
   taskFn: (data: AddTaskType | TaskType, taskId?: string) => void;
@@ -11,6 +12,7 @@ type taskFormParams = {
 };
 
 const TaskForm = ({ taskFn, action, taskId, task }: taskFormParams) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,17 +20,16 @@ const TaskForm = ({ taskFn, action, taskId, task }: taskFormParams) => {
     formState: { errors },
   } = useForm<AddTaskType | TaskType>();
 
-  console.log({
-    taskFn,
-    action,
-    taskId,
-    task,
-  });
-
   useEffect(() => {
-    reset({
-      ...task,
-    });
+    if (task) {
+      const formattedDate = task.createdDate
+        ? new Date(task.createdDate).toISOString().split("T")[0]
+        : "";
+      reset({
+        ...task,
+        createdDate: formattedDate,
+      });
+    }
   }, [task, reset]);
 
   const onSubmit = handleSubmit((data) => {
@@ -38,6 +39,11 @@ const TaskForm = ({ taskFn, action, taskId, task }: taskFormParams) => {
       taskFn(data);
     }
   });
+
+  const handleCancel = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    navigate("/task");
+  };
 
   return (
     <form onSubmit={onSubmit}>
@@ -163,8 +169,19 @@ const TaskForm = ({ taskFn, action, taskId, task }: taskFormParams) => {
         </div>
       </div>
 
-      <div className="flex justify-end mt-4">
-        <span className="">
+      <div className="flex justify-end mt-4 gap-2">
+        <span>
+          <button
+            title={"Cancel"}
+            onClick={handleCancel}
+            type="button"
+            className="bg-sky-blue text-white p-2 font-bold text-md rounded-md"
+          >
+            Cancel
+          </button>
+        </span>
+
+        <span>
           <button
             title={action === "addTask" ? "Create Task" : "Update Task"}
             type="submit"
