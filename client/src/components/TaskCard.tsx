@@ -35,7 +35,7 @@ const TaskCard = ({ task, deleteFn }: taskParam) => {
   };
 
   const editHandler = (taskId: string) => {
-    navigate(`/task/update/${taskId}`);
+    navigate(`/task/edit/${taskId}`);
   };
 
   return (

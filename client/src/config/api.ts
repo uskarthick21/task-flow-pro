@@ -1,7 +1,7 @@
 import { LoginFormData } from "../pages/Login";
 import { RegisterFormData } from "../pages/Register";
 import API from "./apiClient";
-import { AddTask, TaskType, UserType } from "../shared/types"
+import { AddTaskType, TaskType, UserType } from "../shared/types"
 
 
 export const registerForm = async (data: RegisterFormData) => API.post("/auth/register", data);
@@ -10,7 +10,7 @@ export const logOut = async () => API.get("/auth/logout");
 export const getUser = async (): Promise<UserType> => API.get("/user");
 
 export const alltasks = async (): Promise<TaskType[]> => API.get("/task");
-export const addTask = async (data: AddTask) => API.post("/task", data);
-export const updateTask = async (taskId: string) => API.put(`/task/${taskId}`);
+export const addTask = async (data: AddTaskType) => API.post("/task", data);
+export const updateTask = async (data: TaskType, taskId: string) => API.put(`/task/${taskId}`, data);
 export const deleteTask = async (taskId: string) => API.delete(`/task/${taskId}`);
 export const getTaskById = async (taskId: string): Promise<TaskType> => API.get(`/task/${taskId}`);

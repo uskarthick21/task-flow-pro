@@ -7,7 +7,7 @@ export type UserType = {
     lastName: string;
 }
 
-export type TaskType =  {
+export type TaskType = {
     _id: string;
     title: string;
     description: string;
@@ -18,4 +18,4 @@ export type TaskType =  {
     tags: TagsEnum[];
 }
 
-export type AddTask = Omit<TaskType, "_id">;
+export type AddTaskType = Omit<TaskType, "_id">;

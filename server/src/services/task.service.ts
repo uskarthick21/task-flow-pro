@@ -68,14 +68,14 @@ export const deleteTasks = async (taskId: string) => {
     await TaskModel.deleteOne({ _id: taskId });
 }
 
-export const getTaskById = async (taskId: string): Promise<TaskDocument[]> => {
+export const getTaskById = async (taskId: string): Promise<TaskDocument> => {
+    // Fetch tasks for the user. Dont use find method. Because it will return array. We need a single task object. So using findById method.
+    const task = await TaskModel.findById({ _id: taskId });
 
-    // Check if the user exists
-    const taskExists = await TaskModel.exists({ _id: taskId });
-    appAssert(taskExists, NOT_FOUND, "Task not found");
+    // Assert the task exists
+    appAssert(task, NOT_FOUND, "Task not found");
 
-    // Fetch tasks for the user
-    const tasks = await TaskModel.find({ _id: taskId });
-    return tasks
+    // Ensure TypeScript understands the return type matches TaskDocument
+    return task as TaskDocument;
 }
 

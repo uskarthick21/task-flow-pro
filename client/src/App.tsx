@@ -8,8 +8,8 @@ import { setNavigate } from "./config/navigation";
 import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Task from "./pages/Task";
-import TaskForm from "./components/TaskForm";
 import NoPageFound from "./components/NoPageFound";
+import TaskFormPage from "./pages/TaskFormPage";
 
 const App = () => {
   const navigate = useNavigate();
@@ -53,15 +53,15 @@ const App = () => {
           path="/task/add"
           element={
             <Layout>
-              <TaskForm />
+              <TaskFormPage action="addTask" />
             </Layout>
           }
         />
         <Route
-          path="/task/update/:taskId"
+          path="/task/edit/:taskId"
           element={
             <Layout>
-              <TaskForm />
+              <TaskFormPage action="editTask" />
             </Layout>
           }
         />

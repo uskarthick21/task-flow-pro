@@ -1,33 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { TagsEnum, TaskPriorityEnum, TaskStatusEnum } from "../utils/enums";
 import { useForm } from "react-hook-form";
-import { AddTask } from "../shared/types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router";
-import { addTask } from "../config/api";
+import { AddTaskType, TaskType } from "../shared/types";
 
-const TaskForm = () => {
+type taskFormParams = {
+  taskFn: (data: AddTaskType | TaskType, taskId?: string) => void;
+  action: "addTask" | "editTask";
+  taskId: string;
+  task?: TaskType | undefined;
+};
+
+const TaskForm = ({ taskFn, action, taskId, task }: taskFormParams) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<AddTask>();
+  } = useForm<AddTaskType | TaskType>();
 
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
-
-  const { mutate: addTaskFn } = useMutation({
-    mutationFn: addTask,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] }); // Ensure cache invalidation
-      queryClient.refetchQueries({ queryKey: ["tasks"] }); // Force immediate refetch
-      navigate("/task");
-    },
+  console.log({
+    taskFn,
+    action,
+    taskId,
+    task,
   });
 
+  useEffect(() => {
+    reset({
+      ...task,
+    });
+  }, [task, reset]);
+
   const onSubmit = handleSubmit((data) => {
-    console.log("Data:", data);
-    addTaskFn(data);
+    if (action === "editTask" && taskId) {
+      taskFn(data, taskId);
+    } else {
+      taskFn(data);
+    }
   });
 
   return (
@@ -157,11 +166,11 @@ const TaskForm = () => {
       <div className="flex justify-end mt-4">
         <span className="">
           <button
-            title="Create Task"
+            title={action === "addTask" ? "Create Task" : "Update Task"}
             type="submit"
             className="bg-sky-blue text-white p-2 font-bold text-md rounded-md"
           >
-            Create Task
+            {action === "addTask" ? "Create Task" : "Update Task"}
           </button>
         </span>
       </div>
