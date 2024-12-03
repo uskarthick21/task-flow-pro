@@ -1,4 +1,4 @@
-import express, {Request, Response} from "express"
+import express, { Request, Response } from "express"
 import cors from 'cors';
 import "dotenv/config";
 import { APP_ORIGIN, NODE_ENV, PORT } from './constants/env';
@@ -15,40 +15,43 @@ import taskRoutes from "./routes/task.routes";
 
 const app = express();
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 app.use(
-    cors({
-      origin: APP_ORIGIN,
-      credentials: true,
-    })
-  );
+  cors({
+    origin: APP_ORIGIN,
+    credentials: true,
+  })
+);
 
-   //The cookie-parser middleware parses cookies attached to client requests and makes them available as a cookies object in req (request) in your route handlers.
-  app.use(cookieParser());
+//The cookie-parser middleware parses cookies attached to client requests and makes them available as a cookies object in req (request) in your route handlers.
+app.use(cookieParser());
+
+// Auth Routes
+app.use("/auth", authRoutes);
+
+// User Routes
+app.use("/user", authenticate, userRoutes);
+
+// Task Routes
+app.use("/task", authenticate, taskRoutes);
+
+
 /**
  * ----------------- Deployment ---------------- 
  */
-  // Auth Routes
-  app.use("/auth", authRoutes);
 
-  // User Routes
-  app.use("/user", authenticate, userRoutes);
-
-  // Task Routes
-  app.use("/task", authenticate, taskRoutes);
-
-if(process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development") {
   app.get("/", (req, res) => {
     res.status(OK).json({
-        status: "healthy",
+      status: "healthy",
     })
-})
+  })
 
-// app.use(express.static(path.join(__dirname, "../../client/build")));
+  // app.use(express.static(path.join(__dirname, "../../client/build")));
 
-//   app.get("*", (req: Request, res: Response) => {
-//     res.sendFile(path.join(__dirname, "../../client/build/index.html"));
-//   });
+  //   app.get("*", (req: Request, res: Response) => {
+  //     res.sendFile(path.join(__dirname, "../../client/build/index.html"));
+  //   });
 
 } else {
   app.use(express.static(path.join(__dirname, "../../client/build")));
@@ -65,7 +68,7 @@ if(process.env.NODE_ENV === "development") {
 
 app.use(errorHandler);
 
-app.listen(PORT, async() => {
-    console.log(`server is running on port ${PORT} in ${NODE_ENV} enviroment`);
-    await connectDB();
+app.listen(PORT, async () => {
+  console.log(`server is running on port ${PORT} in ${NODE_ENV} enviroment`);
+  await connectDB();
 })

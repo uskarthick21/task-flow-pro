@@ -1,8 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router";
-import { addTask, getTaskById, updateTask } from "../config/api";
+import { addTask, updateTask } from "../config/api";
 import { AddTaskType, TaskType } from "../shared/types";
 import TaskForm from "../components/Task/TaskForm";
+import useGetTaskById from "../hooks/useGetTaskById";
 
 type TaskFormPageParams = {
   action: "addTask" | "editTask";
@@ -12,13 +13,8 @@ const TaskFormPage = ({ action }: TaskFormPageParams) => {
   const { taskId } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const isEditMode = Boolean(taskId);
 
-  const { data: task } = useQuery({
-    queryFn: () => getTaskById(taskId || ""),
-    queryKey: ["singleTask", taskId],
-    enabled: isEditMode,
-  });
+  const { task, isLoading } = useGetTaskById({ taskId });
 
   const { mutate: addTaskFn } = useMutation({
     mutationFn: addTask,
@@ -46,6 +42,10 @@ const TaskFormPage = ({ action }: TaskFormPageParams) => {
       addTaskFn(data as AddTaskType);
     }
   };
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <div>
