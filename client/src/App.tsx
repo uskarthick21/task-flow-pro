@@ -8,9 +8,10 @@ import { setNavigate } from "./config/navigation";
 import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Task from "./pages/Task";
-import NoPageFound from "./components/NoPageFound";
+
 import TaskFormPage from "./pages/TaskFormPage";
 import TaskSinglePage from "./pages/TaskSinglePage";
+import NoPageFound from "./pages/NoPageFound";
 
 const App = () => {
   const navigate = useNavigate();

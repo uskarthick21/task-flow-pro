@@ -1,6 +1,14 @@
 import axios from 'axios';
-import { queryClient } from '..';
 import { navigate } from './navigation';
+import { QueryClient } from '@tanstack/react-query';
+
+export const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: 0,
+        },
+    },
+});
 
 // You need to add prefix REACT_APP_ to the variable name:
 const options = {
@@ -18,11 +26,11 @@ API.interceptors.response.use(
     async (error) => {
         //console.log("Error:", JSON.stringify(error, null, 4));
 
-       const {config, response} = error;
-        const {status, data} = response || {};
+        const { config, response } = error;
+        const { status, data } = response || {};
 
         // try to refresh the access token behind the scenes
-        if(status === 401 && data?.errorCode === "InvalidAccessToken") {
+        if (status === 401 && data?.errorCode === "InvalidAccessToken") {
             try {
                 await TokenRefreshClient.get("/auth/refresh");
                 // after get accessToken from above then retry the original request from the error config. That what below code doing.
@@ -38,7 +46,7 @@ API.interceptors.response.use(
             }
         }
 
-        return Promise.reject({status, ...data})
+        return Promise.reject({ status, ...data })
     }
 )
 

@@ -1,9 +1,9 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import TaskCard from "./TaskCard";
 import { TaskPriorityEnum, TaskStatusEnum, TagsEnum } from "../../utils/enums";
-import { BrowserRouter } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 
-test("render task card component", () => {
+test("renders TaskCard component correctly", async () => {
   const mock = jest.fn();
 
   const task = {
@@ -18,19 +18,23 @@ test("render task card component", () => {
   };
 
   render(
-    <BrowserRouter>
+    <MemoryRouter>
       <TaskCard task={task} deleteFn={mock} />
-    </BrowserRouter>
+    </MemoryRouter>
   );
 
-  const priority = screen.getByRole("button", { name: /critical/i });
-  const heading = screen.getByRole("heading", { name: /My first task/i });
-  const description = screen.getByText(/The is first desc/i);
-  const tag = screen.getByRole("button", { name: /ux design/i });
-  const date = screen.getByRole("button", { name: /13 Nov 2024/i });
-  const deleteBtn = screen.getByRole("button", { name: /delete/i });
-  const editBtn = screen.getByRole("button", { name: /edit/i });
+  // Use findBy* for elements that might not render immediately
+  const priority = await screen.findByRole("button", { name: /critical/i });
+  const heading = await screen.findByRole("heading", {
+    name: /My first task/i,
+  });
+  const description = await screen.findByText(/The is first desc/i);
+  const tag = await screen.findByRole("button", { name: /ux design/i });
+  const date = await screen.findByRole("button", { name: /13 Nov 2024/i });
+  const deleteBtn = await screen.findByRole("button", { name: /delete/i });
+  const editBtn = await screen.findByRole("button", { name: /edit/i });
 
+  // Assertions
   expect(priority).toBeInTheDocument();
   expect(heading).toBeInTheDocument();
   expect(description).toBeInTheDocument();

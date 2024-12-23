@@ -5,7 +5,6 @@
   "dependencies": {
     "@tanstack/react-query": "^5.59.8",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.112",
@@ -25,7 +24,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -46,8 +45,33 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!src/reportWebVitals.ts",
+      "!src/setupTests.ts",
+      "!src/**/constants.ts",
+      "!src/**/types.ts"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
+  },
   "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@testing-library/react": "^16.1.0",
     "autoprefixer": "^10.4.20",
+    "babel-jest": "^29.7.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13"
   }
