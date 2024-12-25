@@ -9,8 +9,8 @@ const Task = () => {
   const { data: tasksList } = useQuery({
     queryKey: ["tasks"],
     queryFn: alltasks,
-    refetchOnMount: false, // Prevent refetch on component remount
-    refetchOnWindowFocus: false, // Prevent refetch when window regains focus
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const taskStatuses = Object.values(TaskStatusEnum);

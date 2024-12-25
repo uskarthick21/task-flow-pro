@@ -1,5 +1,7 @@
+import { UNPROCESSABLE_CONTENT } from "../constants/http";
 import TaskModel from "../models/task.model";
-import { createTask, updateTask, getTasksByUser, deleteTasks, getTaskById } from "../services/task.service";
+import { createTask, updateTask, getTasksByUser, deleteTasks, getTaskById, getTasksbySearch } from "../services/task.service";
+import appAssert from "../utils/appAssert";
 import catchErrors from "../utils/catchErrors";
 import { taskSchema } from "../utils/zodSchemas";
 
@@ -61,5 +63,18 @@ export const getTaskByIdHandler = catchErrors(async (req, res) => {
 
     //Response 
     res.status(201).json(task)
+})
+
+export const getTasksBySearchHandler = catchErrors(async (req, res) => {
+
+    // Destructure title from query and ensure it's a string
+    const title = typeof req.query.title === "string" ? req.query.title : "";
+    appAssert(title, UNPROCESSABLE_CONTENT, "Title must be string");
+
+    // call a service
+    const tasks = await getTasksbySearch(title);
+
+    // Response
+    res.status(201).json(tasks)
 })
 

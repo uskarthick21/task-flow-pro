@@ -14,3 +14,5 @@ export const addTask = async (data: AddTaskType) => API.post("/task", data);
 export const updateTask = async (data: TaskType, taskId: string) => API.put(`/task/${taskId}`, data);
 export const deleteTask = async (taskId: string) => API.delete(`/task/${taskId}`);
 export const getTaskById = async (taskId: string): Promise<TaskType> => API.get(`/task/${taskId}`);
+
+export const searchTasks = async (searchValue: string): Promise<TaskType[]> => API.get(`/task/search?title=${searchValue}`);

@@ -79,3 +79,16 @@ export const getTaskById = async (taskId: string): Promise<TaskDocument> => {
     return task as TaskDocument;
 }
 
+export const getTasksbySearch = async (title: string): Promise<TaskDocument[]> => {
+    const tasks = await TaskModel.find({
+        title: { $regex: title, $options: "i" }, // 'i' for case-insensitive search
+    });
+
+    // Assert the task exists
+    if (!tasks || tasks.length === 0) {
+        appAssert(false, NOT_FOUND, "Tasks not found");
+    }
+
+    return tasks
+}
+

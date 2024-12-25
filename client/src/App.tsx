@@ -12,6 +12,7 @@ import Task from "./pages/Task";
 import TaskFormPage from "./pages/TaskFormPage";
 import TaskSinglePage from "./pages/TaskSinglePage";
 import NoPageFound from "./pages/NoPageFound";
+import SearchPage from "./pages/SearchPage";
 
 const App = () => {
   const navigate = useNavigate();
@@ -72,6 +73,14 @@ const App = () => {
           element={
             <Layout>
               <TaskFormPage action="editTask" />
+            </Layout>
+          }
+        />
+        <Route
+          path="search"
+          element={
+            <Layout>
+              <SearchPage />
             </Layout>
           }
         />

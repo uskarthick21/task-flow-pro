@@ -16,6 +16,8 @@ const useGetTaskById = ({ taskId }: useGetTaskByIdParam) => {
             return getTaskById(taskId)
         },
         enabled: isEditMode,
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
     })
 
     return {

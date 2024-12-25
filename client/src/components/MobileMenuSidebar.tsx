@@ -6,7 +6,7 @@ import {
   LuFolderClock,
   LuX,
 } from "react-icons/lu";
-import SearchBar from "./SearchBar";
+import SearchBar from "./Search/SearchBar";
 
 type MobileMenuSidebarParams = {
   showMenu: boolean;
